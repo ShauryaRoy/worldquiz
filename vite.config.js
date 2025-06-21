@@ -2,6 +2,7 @@ import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import { createLogger, defineConfig } from 'vite';
 import sitemap from 'vite-plugin-sitemap'; // ✅ Added for sitemap
+import fs from 'fs';
 
 const isDev = process.env.NODE_ENV !== 'production';
 let inlineEditPlugin, editModeDevPlugin;
@@ -190,6 +191,41 @@ logger.error = (msg, options) => {
 	loggerError(msg, options);
 }
 
+// Helper to get quiz routes dynamically
+function getQuizRoutes() {
+	const quizDir = path.resolve(__dirname, 'src/pages/quizzes');
+	if (!fs.existsSync(quizDir)) return [];
+	return fs.readdirSync(quizDir)
+		.filter(file => file.endsWith('.jsx'))
+		.map(file => {
+			const name = file.replace(/\.jsx$/, '').toLowerCase();
+			// If the file is WordleQuiz.jsx, route should be /quiz/wordle
+			if (name === 'wordlequiz') return '/quiz/wordle';
+			if (name === 'allflagsquiz') return '/quiz/all-flags';
+			if (name === 'capitalquiz') return '/quiz/capitals';
+			if (name === 'currencyquiz') return '/quiz/currencies';
+			if (name === 'emojiquiz') return '/quiz/emoji';
+			if (name === 'flagquiz') return '/quiz/flags';
+			if (name === 'indianstatesquiz') return '/quiz/indian-states';
+			if (name === 'languagequiz') return '/quiz/languages';
+			if (name === 'populationquiz') return '/quiz/population';
+			if (name === 'shapequiz') return '/quiz/shapes';
+			if (name === 'timezonequiz') return '/quiz/timezones';
+			if (name === 'usfactsquiz') return '/quiz/fact';
+			if (name === 'usstateflagquiz') return '/quiz/us-state-flag';
+			return `/quiz/${name}`;
+		});
+}
+
+const staticUrls = [
+	{ loc: '/' },
+	{ loc: '/leaderboard' },
+	{ loc: '/quiz-leaderboard' },
+	// add other static routes here if needed
+];
+
+const quizUrls = getQuizRoutes().map(route => ({ loc: route }));
+
 export default defineConfig({
 	customLogger: logger,
 	plugins: [
@@ -200,20 +236,9 @@ export default defineConfig({
 		// ✅ Safe sitemap plugin integration
 		sitemap({
 			hostname: 'https://www.worldquiz.fun',
-			routes: [
-				'/',
-				'/quiz/flags',
-				'/quiz/shapes',
-				'/quiz/capitals',
-				'/quiz/languages',
-				'/quiz/emoji',
-				'/quiz/timezones',
-				'/quiz/population',
-				'/quiz/currencies',
-				'/quiz/indian-states',
-				'/quiz/wordle',
-				'/quiz/fact',
-				'/quiz/all-flags'
+			urls: [
+				...staticUrls,
+				...quizUrls
 			]
 		})
 	],
