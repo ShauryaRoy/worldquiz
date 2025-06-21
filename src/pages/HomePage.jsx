@@ -23,13 +23,7 @@ const HomePage = () => {
     icon: Flag,
     path: "/quiz/flags",
     color: "from-red-500 to-pink-600"
-  }, {
-    title: "Country Shapes",
-    description: "Recognize countries by their silhouettes",
-    icon: Map,
-    path: "/quiz/shapes",
-    color: "from-blue-500 to-cyan-600"
-  }, {
+  },  {
     title: "Capital Cities",
     description: "Match countries with their capitals",
     icon: Building2,
