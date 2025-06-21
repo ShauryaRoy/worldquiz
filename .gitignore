@@ -1,0 +1,45 @@
+# Ignore environment variables file
+.env
+node_modules/
+# Ignore build output
+dist/
+# Ignore logs
+logs/
+# Ignore temporary files
+*.log
+# Ignore coverage reports
+coverage/
+# Ignore IDE specific files
+.idea/
+# Ignore OS generated files
+.DS_Store
+# Ignore npm debug files
+npm-debug.log*
+# Ignore yarn lock files
+yarn-debug.log*
+# Ignore package lock files
+package-lock.json
+# Ignore test output
+test-output/
+# Ignore configuration files
+config.json
+# Ignore local development files
+local-dev.json
+# Ignore Docker files
+docker-compose.override.yml
+# Ignore environment specific files
+.env.local
+# Ignore build artifacts
+build/
+# Ignore TypeScript cache
+*.tsbuildinfo
+# Ignore temporary files created by editors
+*.tmp
+# Ignore coverage reports from Jest
+coverage-final.json
+# Ignore specific IDE files
+.vscode/
+# Ignore Python cache files
+__pycache__/
+# Ignore Python virtual environment
+venv/           
