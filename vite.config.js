@@ -1,6 +1,7 @@
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import { createLogger, defineConfig } from 'vite';
+import sitemap from 'vite-plugin-sitemap'; // ✅ Added for sitemap
 
 const isDev = process.env.NODE_ENV !== 'production';
 let inlineEditPlugin, editModeDevPlugin;
@@ -161,7 +162,7 @@ const addTransformIndexHtml = {
 				},
 				{
 					tag: 'script',
-					attrs: {type: 'module'},
+					attrs: { type: 'module' },
 					children: configHorizonsConsoleErrroHandler,
 					injectTo: 'head',
 				},
@@ -176,7 +177,7 @@ const addTransformIndexHtml = {
 	},
 };
 
-console.warn = () => {};
+console.warn = () => { };
 
 const logger = createLogger()
 const loggerError = logger.error
@@ -194,7 +195,27 @@ export default defineConfig({
 	plugins: [
 		...(isDev ? [inlineEditPlugin(), editModeDevPlugin()] : []),
 		react(),
-		addTransformIndexHtml
+		addTransformIndexHtml,
+
+		// ✅ Safe sitemap plugin integration
+		sitemap({
+			hostname: 'https://www.worldquiz.fun',
+			routes: [
+				'/',
+				'/quiz/flags',
+				'/quiz/shapes',
+				'/quiz/capitals',
+				'/quiz/languages',
+				'/quiz/emoji',
+				'/quiz/timezones',
+				'/quiz/population',
+				'/quiz/currencies',
+				'/quiz/indian-states',
+				'/quiz/wordle',
+				'/quiz/fact',
+				'/quiz/all-flags'
+			]
+		})
 	],
 	server: {
 		cors: true,
@@ -204,7 +225,7 @@ export default defineConfig({
 		allowedHosts: true,
 	},
 	resolve: {
-		extensions: ['.jsx', '.js', '.tsx', '.ts', '.json', ],
+		extensions: ['.jsx', '.js', '.tsx', '.ts', '.json',],
 		alias: {
 			'@': path.resolve(__dirname, './src'),
 		},
