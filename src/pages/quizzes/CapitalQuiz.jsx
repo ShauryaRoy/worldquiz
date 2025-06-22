@@ -19,7 +19,7 @@ const CapitalQuiz = () => {
   const [currentScore, setCurrentScore] = useState(0);
   const [totalTimeTaken, setTotalTimeTaken] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  
+
   const { updateScore, addLeaderboardEntry } = useScore();
   const { user, requestUserInfo } = useUser();
 
@@ -44,15 +44,18 @@ const CapitalQuiz = () => {
     const quizQuestions = shuffledCountries.slice(0, TOTAL_QUESTIONS).map(country => {
       const allCapitals = countries.map(c => c.capital);
       const options = generateUniqueOptions(country.capital, allCapitals);
-      
+
       return {
         displayElement: (
           <Card className="bg-gradient-to-br from-blue-500/20 to-purple-600/20 border-white/20">
             <CardContent className="p-6 text-center">
-              <img 
-                src={country.flag} 
+              <img
+                src={country.flag.replace('.png', '.webp')}
                 alt={`Flag of ${country.country}`}
                 className="w-24 h-16 object-cover rounded-lg mx-auto mb-4 shadow-lg"
+                loading="lazy"
+                width="96"
+                height="64"
               />
               <h3 className="text-2xl font-bold text-white">{country.country}</h3>
             </CardContent>
@@ -104,7 +107,7 @@ const CapitalQuiz = () => {
   };
 
   const resetQuiz = () => {
-     if (!user) {
+    if (!user) {
       requestUserInfo();
       return;
     }
@@ -166,8 +169,8 @@ const CapitalQuiz = () => {
   }
 
   return (
-    <QuizLayout 
-      title="Capital Cities Quiz" 
+    <QuizLayout
+      title="Capital Cities Quiz"
       description="Match the country with its capital city."
       quizType={QUIZ_TYPE}
     >

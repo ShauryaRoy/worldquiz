@@ -19,7 +19,7 @@ const TimezoneQuiz = () => {
   const [currentScore, setCurrentScore] = useState(0);
   const [totalTimeTaken, setTotalTimeTaken] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  
+
   const { updateScore, addLeaderboardEntry } = useScore();
   const { user, requestUserInfo } = useUser();
 
@@ -32,10 +32,10 @@ const TimezoneQuiz = () => {
   const generateTimeOptions = (correctTime) => {
     const options = new Set([correctTime]);
     const baseHour = parseInt(correctTime.split(':')[0]);
-    
+
     while (options.size < 4) {
-      let randomOffset = Math.floor(Math.random() * 12) - 6; 
-      if (randomOffset === 0) randomOffset = 1; 
+      let randomOffset = Math.floor(Math.random() * 12) - 6;
+      if (randomOffset === 0) randomOffset = 1;
       let wrongHour = (baseHour + randomOffset + 24) % 24;
       const wrongTime = `${wrongHour < 10 ? '0' + wrongHour : wrongHour}:00`;
       options.add(wrongTime);
@@ -49,15 +49,18 @@ const TimezoneQuiz = () => {
       const hour = Math.floor(Math.random() * 24);
       const correctTime = `${hour < 10 ? '0' + hour : hour}:00`; // This is placeholder. Actual timezone logic is complex.
       const options = generateTimeOptions(correctTime);
-      
+
       return {
         displayElement: (
           <Card className="bg-gradient-to-br from-indigo-500/20 to-blue-600/20 border-white/20">
             <CardContent className="p-6 text-center">
-              <img 
-                src={country.flag} 
+              <img
+                src={country.flag.replace('.png', '.webp')}
                 alt={`Flag of ${country.country}`}
                 className="w-24 h-16 object-cover rounded-lg mx-auto mb-4 shadow-lg"
+                loading="lazy"
+                width="96"
+                height="64"
               />
               <h3 className="text-2xl font-bold text-white mb-2">{country.country}</h3>
               <div className="flex items-center justify-center text-white/80">
@@ -69,7 +72,7 @@ const TimezoneQuiz = () => {
         ),
         questionText: `If it's 12:00 PM in London, what time would it be in ${country.country}? (approx.)`,
         options: options.map(opt => ({ label: opt, value: opt })),
-        correct: correctTime, 
+        correct: correctTime,
         correctFeedback: `That's a plausible time for ${country.country}! Timezones are tricky.`,
         incorrectFeedback: `The approximate time would be ${correctTime}. Timezones can be complex!`
       };
@@ -113,7 +116,7 @@ const TimezoneQuiz = () => {
   };
 
   const resetQuiz = () => {
-     if (!user) {
+    if (!user) {
       requestUserInfo();
       return;
     }
@@ -175,8 +178,8 @@ const TimezoneQuiz = () => {
   }
 
   return (
-    <QuizLayout 
-      title="Timezone Quiz" 
+    <QuizLayout
+      title="Timezone Quiz"
       description="Test your knowledge of world time zones."
       quizType={QUIZ_TYPE}
     >
@@ -187,9 +190,9 @@ const TimezoneQuiz = () => {
         totalQuestions={TOTAL_QUESTIONS}
         currentScore={currentScore}
       />
-       <p className="text-white/60 text-center mt-6 text-sm">
-          * Times are approximate and may vary due to daylight saving time. This quiz uses simplified time logic.
-        </p>
+      <p className="text-white/60 text-center mt-6 text-sm">
+        * Times are approximate and may vary due to daylight saving time. This quiz uses simplified time logic.
+      </p>
     </QuizLayout>
   );
 };

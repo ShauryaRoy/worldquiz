@@ -19,7 +19,7 @@ const LanguageQuiz = () => {
   const [currentScore, setCurrentScore] = useState(0);
   const [totalTimeTaken, setTotalTimeTaken] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  
+
   const { updateScore, addLeaderboardEntry } = useScore();
   const { user, requestUserInfo } = useUser();
 
@@ -42,17 +42,20 @@ const LanguageQuiz = () => {
   const generateQuestions = () => {
     const shuffledCountries = [...countries].sort(() => Math.random() - 0.5);
     const quizQuestions = shuffledCountries.slice(0, TOTAL_QUESTIONS).map(country => {
-      const allLanguages = [...new Set(countries.map(c => c.language))]; 
+      const allLanguages = [...new Set(countries.map(c => c.language))];
       const options = generateUniqueOptions(country.language, allLanguages);
-      
+
       return {
         displayElement: (
           <Card className="bg-gradient-to-br from-purple-500/20 to-pink-600/20 border-white/20">
             <CardContent className="p-6 text-center">
-              <img 
-                src={country.flag} 
+              <img
+                src={country.flag.replace('.png', '.webp')}
                 alt={`Flag of ${country.country}`}
                 className="w-24 h-16 object-cover rounded-lg mx-auto mb-4 shadow-lg"
+                loading="lazy"
+                width="96"
+                height="64"
               />
               <h3 className="text-2xl font-bold text-white">{country.country}</h3>
             </CardContent>
@@ -104,7 +107,7 @@ const LanguageQuiz = () => {
   };
 
   const resetQuiz = () => {
-     if (!user) {
+    if (!user) {
       requestUserInfo();
       return;
     }
@@ -166,8 +169,8 @@ const LanguageQuiz = () => {
   }
 
   return (
-    <QuizLayout 
-      title="Language Quiz" 
+    <QuizLayout
+      title="Language Quiz"
       description="Guess the primary language of the country."
       quizType={QUIZ_TYPE}
     >

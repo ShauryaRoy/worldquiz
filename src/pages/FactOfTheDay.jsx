@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -61,8 +60,8 @@ const FactOfTheDay = () => {
   }
 
   return (
-    <QuizLayout 
-      title="Country Fact of the Day" 
+    <QuizLayout
+      title="Country Fact of the Day"
       description="Discover amazing facts about countries around the world"
     >
       <div className="max-w-4xl mx-auto">
@@ -74,8 +73,8 @@ const FactOfTheDay = () => {
         >
           <Card className="bg-gradient-to-br from-cyan-500/20 to-blue-600/20 border-white/20 overflow-hidden">
             <CardHeader className="text-center pb-4">
-              <motion.img 
-                src={currentFact.flag} 
+              <motion.img
+                src={currentFact.flag}
                 alt={`Flag of ${currentFact.country}`}
                 className="w-32 h-20 object-cover rounded-lg mx-auto mb-4 shadow-lg"
                 whileHover={{ scale: 1.05 }}
@@ -96,8 +95,8 @@ const FactOfTheDay = () => {
                   {currentFact.fact}
                 </p>
               </motion.div>
-              
-              <Button 
+
+              <Button
                 onClick={getRandomFact}
                 className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
               >
@@ -145,7 +144,7 @@ const FactOfTheDay = () => {
                 <div className="text-center">
                   <div className="text-4xl mb-2">✅</div>
                   <p className="text-white">
-                    Thanks for subscribing! You'll receive daily facts at {email}
+                    Thanks for subscribing! You&apos;ll receive daily facts at {email}
                   </p>
                 </div>
               )}
@@ -166,14 +165,14 @@ const FactOfTheDay = () => {
               <div className="text-white/80">Countries in the World</div>
             </CardContent>
           </Card>
-          
+
           <Card className="bg-white/5 border-white/20 text-center">
             <CardContent className="p-6">
               <div className="text-3xl font-bold text-green-400 mb-2">7</div>
               <div className="text-white/80">Continents</div>
             </CardContent>
           </Card>
-          
+
           <Card className="bg-white/5 border-white/20 text-center">
             <CardContent className="p-6">
               <div className="text-3xl font-bold text-purple-400 mb-2">24</div>

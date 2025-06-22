@@ -1,0 +1,44 @@
+{
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+        "requireConfigFile": false,
+        "babelOptions": {
+            "presets": [
+                "@babel/preset-react"
+            ]
+        },
+        "ecmaVersion": 2020,
+        "sourceType": "module"
+    },
+    "env": {
+        "browser": true,
+        "es2020": true
+    },
+    "plugins": [
+        "react",
+        "unused-imports"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "rules": {
+        "no-unused-vars": "warn",
+        "unused-imports/no-unused-imports": "warn",
+        "unused-imports/no-unused-vars": [
+            "warn",
+            {
+                "vars": "all",
+                "varsIgnorePattern": "^_",
+                "args": "after-used",
+                "argsIgnorePattern": "^_"
+            }
+        ],
+        "react/prop-types": "off"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}

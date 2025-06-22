@@ -3,6 +3,9 @@ import react from '@vitejs/plugin-react';
 import { createLogger, defineConfig } from 'vite';
 import sitemap from 'vite-plugin-sitemap'; // ✅ Added for sitemap
 import fs from 'fs';
+import viteCompression from 'vite-plugin-compression';
+import purgecss from 'vite-plugin-purgecss';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 const isDev = process.env.NODE_ENV !== 'production';
 let inlineEditPlugin, editModeDevPlugin;
@@ -240,7 +243,23 @@ export default defineConfig({
 				...staticUrls,
 				...quizUrls
 			]
-		})
+		}),
+
+		// Add Brotli and gzip compression
+		viteCompression({ algorithm: 'brotliCompress' }),
+		viteCompression({ algorithm: 'gzip' }),
+
+		// PurgeCSS plugin to remove unused CSS
+		purgecss({
+			content: [
+				'./index.html',
+				'./src/**/*.{js,jsx,ts,tsx}',
+			],
+			// Optionally, add safelist or other PurgeCSS options here
+		}),
+
+		// Bundle analysis plugin
+		visualizer({ open: true, filename: 'bundle-stats.html' }),
 	],
 	server: {
 		cors: true,
@@ -256,6 +275,9 @@ export default defineConfig({
 		},
 	},
 	build: {
+		target: 'es2020', // Only target modern browsers
+		minify: 'esbuild', // Use esbuild for fast and efficient minification
+		cssCodeSplit: true, // Split CSS for faster loading
 		rollupOptions: {
 			external: [
 				'@babel/parser',
@@ -263,6 +285,13 @@ export default defineConfig({
 				'@babel/generator',
 				'@babel/types'
 			]
+		},
+		// Optional: further esbuild options for more aggressive minification
+		esbuild: {
+			minify: true,
+			minifyWhitespace: true,
+			minifyIdentifiers: true,
+			minifySyntax: true
 		}
 	}
 });

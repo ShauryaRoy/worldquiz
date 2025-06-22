@@ -1,27 +1,15 @@
-
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { ScoreProvider } from '@/contexts/ScoreContext';
 import { UserProvider } from '@/contexts/UserContext';
 import HomePage from '@/pages/HomePage.jsx';
-import FlagQuiz from '@/pages/quizzes/FlagQuiz.jsx';
-import CapitalQuiz from '@/pages/quizzes/CapitalQuiz.jsx';
-import LanguageQuiz from '@/pages/quizzes/LanguageQuiz.jsx';
-import EmojiQuiz from '@/pages/quizzes/EmojiQuiz.jsx';
-import TimezoneQuiz from '@/pages/quizzes/TimezoneQuiz.jsx';
-import PopulationQuiz from '@/pages/quizzes/PopulationQuiz.jsx';
-import CurrencyQuiz from '@/pages/quizzes/CurrencyQuiz.jsx';
-import IndianStatesQuiz from '@/pages/quizzes/IndianStatesQuiz.jsx';
-import WordleQuiz from '@/pages/quizzes/WordleQuiz.jsx';
-import FactOfTheDay from '@/pages/FactOfTheDay.jsx';
-import AllFlagsQuiz from '@/pages/quizzes/AllFlagsQuiz.jsx';
+import { LazyQuizRoutes } from '@/pages/LazyQuizRoutes';
 import LeaderboardPage from '@/pages/LeaderboardPage.jsx';
 import QuizLeaderboardPage from '@/pages/QuizLeaderboardPage.jsx';
 import UserInfoModal from '@/components/UserInfoModal';
-import UsStateFlagQuiz from '@/pages/quizzes/UsStateFlagQuiz.jsx';
-import UsFactsQuiz from '@/pages/quizzes/UsFactsQuiz.jsx';
+import FactOfTheDay from '@/pages/FactOfTheDay.jsx';
 
 function App() {
   return (
@@ -33,21 +21,10 @@ function App() {
               <UserInfoModal />
               <Routes>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/quiz/flags" element={<FlagQuiz />} />
-                <Route path="/quiz/capitals" element={<CapitalQuiz />} />
-                <Route path="/quiz/languages" element={<LanguageQuiz />} />
-                <Route path="/quiz/emoji" element={<EmojiQuiz />} />
-                <Route path="/quiz/timezones" element={<TimezoneQuiz />} />
-                <Route path="/quiz/population" element={<PopulationQuiz />} />
-                <Route path="/quiz/currencies" element={<CurrencyQuiz />} />
-                <Route path="/quiz/indian-states" element={<IndianStatesQuiz />} />
-                <Route path="/quiz/wordle" element={<WordleQuiz />} />
-                <Route path="/quiz/all-flags" element={<AllFlagsQuiz />} />
-                <Route path="/quiz/us-state-flags" element={<UsStateFlagQuiz />} />
-                <Route path="/quiz/us-facts" element={<UsFactsQuiz />} />
-                <Route path="/fact" element={<FactOfTheDay />} />
+                <Route path="/quiz/:type" element={<LazyQuizRoutesWrapper />} />
                 <Route path="/leaderboard" element={<LeaderboardPage />} />
                 <Route path="/leaderboard/:quizType" element={<QuizLeaderboardPage />} />
+                <Route path="/fact" element={<FactOfTheDay />} />
               </Routes>
               <Toaster />
             </div>
@@ -56,6 +33,12 @@ function App() {
       </UserProvider>
     </ThemeProvider>
   );
+}
+
+// Wrapper to extract route param and pass to LazyQuizRoutes
+function LazyQuizRoutesWrapper() {
+  const { type } = useParams();
+  return <LazyQuizRoutes route={type} />;
 }
 
 export default App;

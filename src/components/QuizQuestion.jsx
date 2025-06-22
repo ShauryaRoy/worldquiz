@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
 import { Clock } from 'lucide-react';
 
@@ -35,14 +34,14 @@ const QuizQuestion = ({ questionData, onAnswer, questionNumber, totalQuestions, 
   }, [questionData]);
 
   const handleTimeOut = () => {
-    if (selectedAnswer) return; 
+    if (selectedAnswer) return;
     setShowResult(true);
     toast({
       title: "Time's up! ⏰",
       description: `The correct answer was ${questionData.correct}`,
       variant: "destructive",
     });
-    onAnswer(null, QUESTION_TIME_LIMIT); 
+    onAnswer(null, QUESTION_TIME_LIMIT);
   };
 
   const handleAnswerClick = (answer) => {
@@ -54,7 +53,7 @@ const QuizQuestion = ({ questionData, onAnswer, questionNumber, totalQuestions, 
     setShowResult(true);
 
     const isCorrect = answer === questionData.correct;
-    
+
     if (isCorrect) {
       toast({
         title: "Correct! 🎉",
@@ -73,7 +72,7 @@ const QuizQuestion = ({ questionData, onAnswer, questionNumber, totalQuestions, 
   return (
     <div className="max-w-2xl mx-auto">
       <div className="w-full bg-white/20 rounded-full h-2 mb-4">
-        <div 
+        <div
           className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
           style={{ width: `${((questionNumber) / totalQuestions) * 100}%` }}
         ></div>
@@ -83,7 +82,7 @@ const QuizQuestion = ({ questionData, onAnswer, questionNumber, totalQuestions, 
         <span>Question {questionNumber}/{totalQuestions}</span>
         <span>Score: {currentScore}</span>
       </div>
-      
+
       <div className="flex items-center justify-center mb-4 text-white">
         <Clock className="w-6 h-6 mr-2 text-yellow-400" />
         <span className="text-2xl font-bold">{timeLeft}s</span>
@@ -98,17 +97,20 @@ const QuizQuestion = ({ questionData, onAnswer, questionNumber, totalQuestions, 
           animate={{ scale: 1, opacity: 1 }}
           className="flag-container mb-8 mx-auto max-w-md"
         >
-          <img 
-            src={questionData.image} 
+          <img
+            src={questionData.image && questionData.image.endsWith('.png') ? questionData.image.replace('.png', '.webp') : questionData.image}
             alt={questionData.imageAlt || "Quiz image"}
             className="w-full h-48 object-contain rounded-xl shadow-2xl"
+            loading="lazy"
+            width="100%"
+            height="192"
           />
         </motion.div>
       )}
 
       {questionData.displayElement && (
-         <motion.div
-          key={questionNumber} 
+        <motion.div
+          key={questionNumber}
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           className="mb-8 mx-auto max-w-md"
@@ -125,7 +127,7 @@ const QuizQuestion = ({ questionData, onAnswer, questionNumber, totalQuestions, 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {questionData.options.map((option, index) => {
           let buttonClass = "quiz-option bg-white/10 hover:bg-white/20 text-white border-white/20";
-          
+
           if (showResult) {
             if (option === questionData.correct) {
               buttonClass += " correct";
@@ -136,7 +138,7 @@ const QuizQuestion = ({ questionData, onAnswer, questionNumber, totalQuestions, 
 
           return (
             <motion.div
-              key={option.value || option} 
+              key={option.value || option}
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: index * 0.1 }}

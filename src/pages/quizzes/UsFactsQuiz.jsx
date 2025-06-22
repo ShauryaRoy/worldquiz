@@ -19,7 +19,7 @@ const UsFactsQuiz = () => {
   const [currentScore, setCurrentScore] = useState(0);
   const [totalTimeTaken, setTotalTimeTaken] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  
+
   const { updateScore, addLeaderboardEntry } = useScore();
   const { user, requestUserInfo } = useUser();
 
@@ -42,8 +42,8 @@ const UsFactsQuiz = () => {
   const generateQuestions = () => {
     const statesWithFacts = usStates.filter(state => state.fact);
     if (statesWithFacts.length === 0) {
-        setQuestions([]);
-        return;
+      setQuestions([]);
+      return;
     }
     const shuffledStates = [...statesWithFacts].sort(() => Math.random() - 0.5);
     const numQuestions = Math.min(TOTAL_QUESTIONS, statesWithFacts.length);
@@ -51,15 +51,15 @@ const UsFactsQuiz = () => {
     const quizQuestions = shuffledStates.slice(0, numQuestions).map(state => {
       const allStateNames = usStates.map(s => s.name);
       const options = generateUniqueOptions(state.name, allStateNames);
-      
+
       return {
         displayElement: (
-            <Card className="bg-gradient-to-br from-yellow-500/20 via-amber-500/20 to-orange-500/20 border-white/20 shadow-xl">
-              <CardContent className="p-6 text-center">
-                <Lightbulb className="w-12 h-12 text-yellow-400 mx-auto mb-4 animate-pulse" />
-                <p className="text-lg text-white font-semibold">{state.fact}</p>
-              </CardContent>
-            </Card>
+          <Card className="bg-gradient-to-br from-yellow-500/20 via-amber-500/20 to-orange-500/20 border-white/20 shadow-xl">
+            <CardContent className="p-6 text-center">
+              <Lightbulb className="w-12 h-12 text-yellow-400 mx-auto mb-4 animate-pulse" />
+              <p className="text-lg text-white font-semibold">{state.fact}</p>
+            </CardContent>
+          </Card>
         ),
         questionText: "Which US state is this fact about?",
         options: options.map(opt => ({ label: opt, value: opt })),
@@ -103,7 +103,7 @@ const UsFactsQuiz = () => {
           });
         }
       }
-    }, 2000); 
+    }, 2000);
   };
 
   const resetQuiz = () => {
@@ -127,11 +127,11 @@ const UsFactsQuiz = () => {
       </QuizLayout>
     );
   }
-  
+
   if (questions.length === 0 && usStates.filter(s => s.fact).length === 0) {
     return (
       <QuizLayout title="US Facts Quiz" description="No fact data available." quizType={QUIZ_TYPE}>
-         <p className="text-white text-center">We're currently missing fact data for this quiz. Please check back later!</p>
+        <p className="text-white text-center">We&apos;re currently missing fact data for this quiz. Please check back later!</p>
       </QuizLayout>
     );
   }
@@ -178,8 +178,8 @@ const UsFactsQuiz = () => {
   }
 
   return (
-    <QuizLayout 
-      title="US Facts Quiz" 
+    <QuizLayout
+      title="US Facts Quiz"
       description="Guess the state based on the fact."
       quizType={QUIZ_TYPE}
     >

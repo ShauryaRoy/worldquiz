@@ -14,7 +14,7 @@ export function Toaster() {
 
 	return (
 		<ToastProvider>
-			{toasts.map(({ id, title, description, action, dismiss, ...props }) => {
+			{toasts.map(({ id, title, description, action, dismiss: _dismiss, ...props }) => {
 				// Remove 'dismiss' before passing props to Toast
 				return (
 					<Toast key={id} {...props}>

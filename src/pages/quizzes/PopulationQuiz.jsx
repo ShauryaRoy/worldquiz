@@ -19,7 +19,7 @@ const PopulationQuiz = () => {
   const [currentScore, setCurrentScore] = useState(0);
   const [totalTimeTaken, setTotalTimeTaken] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
-  
+
   const { updateScore, addLeaderboardEntry } = useScore();
   const { user, requestUserInfo } = useUser();
 
@@ -39,11 +39,11 @@ const PopulationQuiz = () => {
   const generateQuestions = () => {
     const shuffledCountries = [...countries].sort(() => Math.random() - 0.5);
     const quizQuestions = [];
-    for (let i = 0; i < Math.min(TOTAL_QUESTIONS, Math.floor(shuffledCountries.length / 2)) ; i++) {
-      const country1 = shuffledCountries[i*2];
-      const country2 = shuffledCountries[i*2 + 1];
+    for (let i = 0; i < Math.min(TOTAL_QUESTIONS, Math.floor(shuffledCountries.length / 2)); i++) {
+      const country1 = shuffledCountries[i * 2];
+      const country2 = shuffledCountries[i * 2 + 1];
       const correctCountry = country1.population > country2.population ? country1 : country2;
-      
+
       quizQuestions.push({
         questionText: "Which country has a larger population?",
         options: [
@@ -56,12 +56,12 @@ const PopulationQuiz = () => {
             {[country1, country2].map(c => (
               <Card key={c.country} className="bg-slate-700/50 border-slate-600">
                 <CardContent className="p-4 text-center">
-                  <img src={c.flag} alt={`Flag of ${c.country}`} className="w-20 h-12 object-cover rounded mx-auto mb-2"/>
+                  <img src={c.flag.replace('.png', '.webp')} alt={`Flag of ${c.country}`} className="w-20 h-12 object-cover rounded mx-auto mb-2" loading="lazy" width="80" height="48" />
                   <h3 className="text-lg font-semibold text-white">{c.country}</h3>
                   {(quizCompleted || (currentQuestionIndex === i && questions[i]?.showResultForPopulation)) ? (
-                     <p className="text-sm text-yellow-300">{formatPopulation(c.population)}</p>
+                    <p className="text-sm text-yellow-300">{formatPopulation(c.population)}</p>
                   ) : (
-                     <p className="text-sm text-slate-400">(Population Hidden)</p>
+                    <p className="text-sm text-slate-400">(Population Hidden)</p>
                   )}
                 </CardContent>
               </Card>
@@ -75,7 +75,7 @@ const PopulationQuiz = () => {
     }
     setQuestions(quizQuestions);
   };
-  
+
   useEffect(() => {
     generateQuestions();
   }, []);
@@ -90,7 +90,7 @@ const PopulationQuiz = () => {
     const newTotalTimeTaken = totalTimeTaken + timeTaken;
     setTotalTimeTaken(newTotalTimeTaken);
 
-    setQuestions(prev => prev.map((q, index) => 
+    setQuestions(prev => prev.map((q, index) =>
       index === currentQuestionIndex ? { ...q, showResultForPopulation: true } : q
     ));
 
@@ -112,11 +112,11 @@ const PopulationQuiz = () => {
           });
         }
       }
-    }, 3000); 
+    }, 3000);
   };
 
   const resetQuiz = () => {
-     if (!user) {
+    if (!user) {
       requestUserInfo();
       return;
     }
@@ -178,8 +178,8 @@ const PopulationQuiz = () => {
   }
 
   return (
-    <QuizLayout 
-      title="Population Quiz" 
+    <QuizLayout
+      title="Population Quiz"
       description="Compare population sizes of countries."
       quizType={QUIZ_TYPE}
     >

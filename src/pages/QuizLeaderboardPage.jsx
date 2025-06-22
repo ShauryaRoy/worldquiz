@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -30,7 +29,7 @@ const getQuizDisplayName = (quizType) => {
 
 const QuizLeaderboardPage = () => {
   const { quizType } = useParams();
-  const { getLeaderboard, fetchLeaderboard } = useScore();
+  const { getLeaderboard: _getLeaderboard, fetchLeaderboard } = useScore();
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -40,7 +39,7 @@ const QuizLeaderboardPage = () => {
     setLeaderboardData(data);
     setIsLoading(false);
   };
-  
+
   useEffect(() => {
     loadData();
   }, [quizType]);
@@ -48,7 +47,7 @@ const QuizLeaderboardPage = () => {
   const displayName = getQuizDisplayName(quizType);
 
   return (
-    <QuizLayout 
+    <QuizLayout
       title={`${displayName} Leaderboard`}
       description={`Top scores for the ${displayName}.`}
       isLeaderboardPage={true}
@@ -61,8 +60,8 @@ const QuizLeaderboardPage = () => {
         <Card className="bg-slate-800/70 border-slate-700 shadow-2xl">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-                <CardTitle className="text-3xl gradient-text">{displayName} - Top Scores</CardTitle>
-                <CardDescription className="text-white/70">See who mastered this quiz!</CardDescription>
+              <CardTitle className="text-3xl gradient-text">{displayName} - Top Scores</CardTitle>
+              <CardDescription className="text-white/70">See who mastered this quiz!</CardDescription>
             </div>
             <Button onClick={loadData} disabled={isLoading} variant="ghost" size="icon" className="text-white hover:bg-white/10">
               <RefreshCw className={`w-5 h-5 ${isLoading ? 'animate-spin' : ''}`} />
@@ -70,10 +69,10 @@ const QuizLeaderboardPage = () => {
           </CardHeader>
           <CardContent>
             {isLoading ? (
-               <div className="flex justify-center items-center py-8">
-                  <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-400"></div>
-                  <p className="ml-4 text-white/70">Loading scores...</p>
-               </div>
+              <div className="flex justify-center items-center py-8">
+                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-400"></div>
+                <p className="ml-4 text-white/70">Loading scores...</p>
+              </div>
             ) : leaderboardData.length === 0 ? (
               <p className="text-center text-white/70 py-8 text-lg">
                 No scores recorded for this quiz yet. Be the first!
@@ -91,8 +90,8 @@ const QuizLeaderboardPage = () => {
                   </thead>
                   <tbody>
                     {leaderboardData.map((entry, index) => (
-                      <motion.tr 
-                        key={entry.id || index} 
+                      <motion.tr
+                        key={entry.id || index}
                         className="border-b border-slate-700/50 hover:bg-slate-700/50 transition-colors"
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -111,11 +110,11 @@ const QuizLeaderboardPage = () => {
           </CardContent>
         </Card>
         <div className="mt-8 text-center">
-            <Link to="/leaderboard">
-                <Button variant="outline" className="border-purple-400 text-purple-400 hover:bg-purple-400/10">
-                    <ArrowLeft className="w-4 h-4 mr-2" /> Back to All Leaderboards
-                </Button>
-            </Link>
+          <Link to="/leaderboard">
+            <Button variant="outline" className="border-purple-400 text-purple-400 hover:bg-purple-400/10">
+              <ArrowLeft className="w-4 h-4 mr-2" /> Back to All Leaderboards
+            </Button>
+          </Link>
         </div>
       </motion.div>
     </QuizLayout>
