@@ -4,7 +4,6 @@ import { createLogger, defineConfig } from 'vite';
 import sitemap from 'vite-plugin-sitemap'; // ✅ Added for sitemap
 import fs from 'fs';
 import viteCompression from 'vite-plugin-compression';
-import purgecss from 'vite-plugin-purgecss';
 import { visualizer } from 'rollup-plugin-visualizer';
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -249,15 +248,6 @@ export default defineConfig({
 		// Add Brotli and gzip compression
 		viteCompression({ algorithm: 'brotliCompress' }),
 		viteCompression({ algorithm: 'gzip' }),
-
-		// PurgeCSS plugin to remove unused CSS
-		purgecss({
-			content: [
-				'./index.html',
-				'./src/**/*.{js,jsx,ts,tsx}',
-			],
-			// Optionally, add safelist or other PurgeCSS options here
-		}),
 
 		...(shouldAnalyze ? [visualizer({ open: false, filename: 'bundle-stats.html' })] : []),
 	],
