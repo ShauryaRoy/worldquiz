@@ -170,7 +170,7 @@ const WordleQuiz = () => {
           ))}
         </div>
 
-        <div className="mb-6 flex gap-2">
+        <div className="mb-6 flex flex-col sm:flex-row gap-2">
           <input
             type="text" value={currentGuess}
             onChange={(e) => setCurrentGuess(e.target.value.replace(/[^a-zA-Z\s-]/g, ''))}
@@ -179,7 +179,7 @@ const WordleQuiz = () => {
             className="flex-1 px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             disabled={gameOver || !user} maxLength={displayLength}
           />
-          <Button onClick={submitGuess} disabled={gameOver || !currentGuess.trim() || !user} className="bg-gradient-to-r from-blue-500 to-purple-600">
+          <Button onClick={submitGuess} disabled={gameOver || !currentGuess.trim() || !user} className="w-full sm:w-auto shrink-0 bg-gradient-to-r from-blue-500 to-purple-600">
             <Keyboard className="w-4 h-4 mr-2" /> Guess
           </Button>
         </div>
