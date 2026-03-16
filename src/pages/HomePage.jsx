@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useScore } from '@/contexts/ScoreContext';
-import { Flag, Building2, Languages, Smile, Clock, Users, Coins, MapPin, Grid3X3, Lightbulb, Moon, Sun, Trophy, Globe, BarChart3 } from 'lucide-react';
+import { Flag, Building2, Languages, Clock, Users, Coins, MapPin, Grid3X3, Lightbulb, Moon, Sun, Trophy, Globe, BarChart3 } from 'lucide-react';
 
 const HomePage = () => {
   const {

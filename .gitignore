@@ -35,6 +35,8 @@ build/
 *.tsbuildinfo
 # Ignore temporary files created by editors
 *.tmp
+# Ignore bundle analyzer report
+bundle-stats.html
 # Ignore coverage reports from Jest
 coverage-final.json
 # Ignore specific IDE files

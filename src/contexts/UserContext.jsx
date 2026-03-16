@@ -13,7 +13,15 @@ export const useUser = () => {
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('geoquiz-user');
-    return savedUser ? JSON.parse(savedUser) : null;
+    if (!savedUser) return null;
+
+    try {
+      return JSON.parse(savedUser);
+    } catch (error) {
+      console.warn('Invalid user data in localStorage. Clearing it.', error);
+      localStorage.removeItem('geoquiz-user');
+      return null;
+    }
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
 

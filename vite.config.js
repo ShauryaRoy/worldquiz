@@ -8,6 +8,7 @@ import purgecss from 'vite-plugin-purgecss';
 import { visualizer } from 'rollup-plugin-visualizer';
 
 const isDev = process.env.NODE_ENV !== 'production';
+const shouldAnalyze = process.env.ANALYZE === 'true';
 let inlineEditPlugin, editModeDevPlugin;
 
 if (isDev) {
@@ -258,8 +259,7 @@ export default defineConfig({
 			// Optionally, add safelist or other PurgeCSS options here
 		}),
 
-		// Bundle analysis plugin
-		visualizer({ open: true, filename: 'bundle-stats.html' }),
+		...(shouldAnalyze ? [visualizer({ open: false, filename: 'bundle-stats.html' })] : []),
 	],
 	server: {
 		cors: true,

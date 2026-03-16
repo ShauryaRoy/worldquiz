@@ -20,7 +20,7 @@ const quizTypeDisplayNames = {
   "indian-states": "Indian States Quiz",
   wordle: "Geo Wordle",
   "all-flags": "All Flags Quiz",
-  "us-state-flags": "US State Flags Quiz",
+  "us-state-flag": "US State Flags Quiz",
   "us-facts": "US Facts Quiz"
 };
 
@@ -30,15 +30,15 @@ const getQuizDisplayName = (quizType) => {
 
 
 const LeaderboardPage = () => {
-  const { getLeaderboard, fetchLeaderboard, fetchAllQuizTypesForLeaderboard } = useScore();
+  const { fetchLeaderboard, fetchAllQuizTypesForLeaderboard } = useScore();
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [availableQuizTypes, setAvailableQuizTypes] = useState([]);
 
   const loadData = async () => {
     setIsLoading(true);
-    await fetchLeaderboard(); 
-    setLeaderboardData(getLeaderboard());
+    const latestScores = await fetchLeaderboard();
+    setLeaderboardData(latestScores);
     const types = await fetchAllQuizTypesForLeaderboard();
     setAvailableQuizTypes(types);
     setIsLoading(false);
@@ -141,7 +141,7 @@ const LeaderboardPage = () => {
                         <td className="p-4">{entry.name}</td>
                         <td className="p-4">{getQuizDisplayName(entry.quiz_type)}</td>
                         <td className="p-4 text-right font-semibold text-green-400">{entry.score}</td>
-                        <td className="p-4 text-right text-yellow-400">{entry.time_taken.toFixed(1)}</td>
+                        <td className="p-4 text-right text-yellow-400">{Number(entry.time_taken || 0).toFixed(1)}</td>
                       </motion.tr>
                     ))}
                   </tbody>
