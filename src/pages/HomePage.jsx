@@ -5,19 +5,17 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useScore } from '@/contexts/ScoreContext';
-import { Flag, Building2, Languages, Clock, Users, Coins, MapPin, Grid3X3, Lightbulb, Moon, Sun, Trophy, Globe, BarChart3 } from 'lucide-react';
+import { useStreak } from '@/contexts/StreakContext';
+import { Flag, Building2, Languages, Clock, Users, Coins, MapPin, Grid3X3, Lightbulb, Moon, Sun, Trophy, Globe, BarChart3, Swords, Flame, Zap } from 'lucide-react';
 
 const HomePage = () => {
-  const {
-    theme,
-    toggleTheme
-  } = useTheme();
-  const {
-    getAllScores
-  } = useScore();
+  const { theme, toggleTheme } = useTheme();
+  const { getAllScores } = useScore();
+  const { streak, todayCompleted, checkStreakAtRisk } = useStreak();
   const scores = getAllScores();
   const totalQuizzes = Object.keys(scores).length;
   const averageScore = totalQuizzes > 0 ? Math.round(Object.values(scores).reduce((acc, score) => acc + (score.percentage || 0), 0) / totalQuizzes) : 0;
+  const atRisk = checkStreakAtRisk();
   const quizTypes = [{
     title: "Flag Quiz",
     description: "Identify countries by their flags",
@@ -137,16 +135,87 @@ const HomePage = () => {
       </div>
     </motion.section>
 
+    <section className="container mx-auto px-4 pb-8">
+      <motion.div
+        initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.18 }}
+        className="mb-3"
+      >
+        <h3 className="text-white/50 text-xs font-semibold uppercase tracking-widest mb-4">✨ New Features</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+          {/* Daily Challenge */}
+          <Link to="/daily">
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+              <Card className={`h-full cursor-pointer group relative overflow-hidden border-2 ${
+                atRisk ? 'border-red-500 animate-pulse' : todayCompleted ? 'border-green-500/60' : 'border-orange-500/60'
+              } bg-gradient-to-br from-orange-900/40 to-red-900/40`}>
+                <CardHeader className="pb-2">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                    <Flame className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle className="text-white">Daily Challenge</CardTitle>
+                  <CardDescription className="text-white/60">One quiz per day, everyone gets the same questions</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {todayCompleted
+                    ? <span className="text-green-400 text-sm font-semibold">✓ Completed today</span>
+                    : atRisk
+                      ? <span className="text-red-400 text-sm font-semibold">⚠️ Streak at risk!</span>
+                      : <span className="text-orange-300 text-sm font-semibold">🔥 {streak > 0 ? `${streak} day streak` : 'Start your streak!'}</span>
+                  }
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Link>
+
+          {/* 1v1 Duel */}
+          <Link to="/duel">
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+              <Card className="h-full cursor-pointer group border-2 border-purple-500/60 bg-gradient-to-br from-purple-900/40 to-blue-900/40">
+                <CardHeader className="pb-2">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                    <Swords className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle className="text-white">1v1 Duel</CardTitle>
+                  <CardDescription className="text-white/60">Challenge a friend to a live head-to-head geography battle</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <span className="text-purple-300 text-sm font-semibold">⚔️ Real-time · Rank system · Win streaks</span>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Link>
+
+          {/* Speed Leaderboard */}
+          <Link to="/speed-leaderboard">
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+              <Card className="h-full cursor-pointer group border-2 border-yellow-500/60 bg-gradient-to-br from-yellow-900/40 to-amber-900/40">
+                <CardHeader className="pb-2">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-yellow-500 to-amber-500 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                    <Zap className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle className="text-white">Speed Board</CardTitle>
+                  <CardDescription className="text-white/60">Who answered fastest? Weekly &amp; monthly rankings</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <span className="text-yellow-300 text-sm font-semibold">⚡ Fastest times · Regional &amp; per-quiz filters</span>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </Link>
+
+        </div>
+      </motion.div>
+    </section>
+
     <section className="container mx-auto px-4 pb-12">
-      <motion.div initial={{
-        y: 20,
-        opacity: 0
-      }} animate={{
-        y: 0,
-        opacity: 1
-      }} transition={{
-        delay: 0.2
-      }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <motion.div
+        initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }}
+        className="mb-3"
+      >
+        <h3 className="text-white/50 text-xs font-semibold uppercase tracking-widest mb-4">🌍 All Quizzes</h3>
+      </motion.div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {quizTypes.map((quiz, index) => {
           const Icon = quiz.icon;
           const scoreData = scores[quiz.path.split('/').pop()];
@@ -188,7 +257,7 @@ const HomePage = () => {
             </Link>
           </motion.div>;
         })}
-      </motion.div>
+      </div>
     </section>
 
     {totalQuizzes > 0 && <motion.section initial={{
